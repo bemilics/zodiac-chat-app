@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-mystic-bg text-mystic-cream font-body;
+    @apply min-h-screen;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .card-flip {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+
+  .card-flip.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    backface-visibility: hidden;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+  }
+
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-slideIn {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .animate-slideInLeft {
+    animation: slideInLeft 0.3s ease-out;
+  }
+
+  .animate-slideInRight {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  /* Custom scrollbar para el chat */
+  .scroll-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scroll-custom::-webkit-scrollbar-track {
+    background: #1A1A2E;
+    border-radius: 4px;
+  }
+
+  .scroll-custom::-webkit-scrollbar-thumb {
+    background: #C9A86A;
+    border-radius: 4px;
+  }
+
+  .scroll-custom::-webkit-scrollbar-thumb:hover {
+    background: #F4EAD5;
+  }
+
+  /* Animaciones de constelaciones para Zodiac */
+  @keyframes constellation-form {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-10deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  .constellation-svg {
+    animation: constellation-form 2s ease-out;
+  }
+
+  /* Estrellas parpadeantes en background */
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .star-bg {
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  /* Estrellas flotantes */
+  @keyframes float-star {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .floating-star {
+    animation: float-star 4s ease-in-out infinite;
+  }
+
+  /* Background de estrellas para OptionalInput */
+  .stars-background-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stars-background-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, #C9A86A, transparent),
+      radial-gradient(2px 2px at 60% 70%, #F4EAD5, transparent),
+      radial-gradient(1px 1px at 50% 50%, #C9A86A, transparent),
+      radial-gradient(1px 1px at 80% 10%, #F4EAD5, transparent),
+      radial-gradient(2px 2px at 90% 60%, #C9A86A, transparent),
+      radial-gradient(1px 1px at 33% 90%, #F4EAD5, transparent),
+      radial-gradient(2px 2px at 70% 40%, #C9A86A, transparent);
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    animation: twinkle 6s ease-in-out infinite;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+}
