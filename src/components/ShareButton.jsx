@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { captureForInstagram } from '../utils/screenshotUtils'
+import { trackShareButtonClicked, trackScreenshotGenerated } from '../utils/analytics'
 
 function ShareButton({ chatContainerRef }) {
   const [isCapturing, setIsCapturing] = useState(false)
@@ -11,11 +12,17 @@ function ShareButton({ chatContainerRef }) {
       return
     }
 
+    // Analytics: Click en botón compartir
+    trackShareButtonClicked()
+
     setIsCapturing(true)
     setError(null)
 
     try {
       await captureForInstagram(chatContainerRef.current)
+
+      // Analytics: Screenshot generado exitosamente
+      trackScreenshotGenerated()
     } catch (err) {
       setError(err.message)
       console.error('Error al compartir:', err)

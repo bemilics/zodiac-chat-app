@@ -14,6 +14,15 @@ import {
   getCurrentChatId,
   setCurrentChatId
 } from './utils/chatStorage'
+import {
+  trackThemeSelected,
+  trackInputMethodSelected,
+  trackSignsSelected,
+  trackChatStarted,
+  trackNewChatCreated,
+  trackChatDeleted,
+  trackChatSwitched
+} from './utils/analytics'
 
 function App() {
   // State management para el flujo completo (6 pasos)
@@ -74,6 +83,9 @@ function App() {
     setChatMessages([])
     setIsGenerating(false)
     setTypingCard(null)
+
+    // Analytics
+    trackNewChatCreated()
   }
 
   // Handler: Seleccionar chat existente
@@ -101,11 +113,17 @@ function App() {
 
       setIsGenerating(false)
       setTypingCard(null)
+
+      // Analytics
+      trackChatSwitched()
     }
   }
 
   // Handler: Eliminar chat
   const handleDeleteChat = (deletedChatId) => {
+    // Analytics
+    trackChatDeleted()
+
     if (deletedChatId === currentChatId) {
       // Si eliminamos el chat actual, crear uno nuevo
       handleNewChat()
@@ -120,20 +138,30 @@ function App() {
       setCurrentChatIdState(newChatId)
     }
 
-    setSelectedTheme(customTheme || themeKey)
+    const theme = customTheme || themeKey
+    setSelectedTheme(theme)
     setCurrentStep(2)
+
+    // Analytics
+    trackThemeSelected(theme)
   }
 
   // Paso 2: Handler para cuando el usuario elige el método de input
   const handleMethodSelect = (method) => {
     setInputMethod(method)
     setCurrentStep(3)
+
+    // Analytics
+    trackInputMethodSelected(method)
   }
 
   // Paso 3: Handler para cuando el usuario tiene sus signos listos (manual o calculados)
   const handleSignsReady = (signs) => {
     setUserSigns(signs)
     setCurrentStep(4) // ConstellationAnimation
+
+    // Analytics
+    trackSignsSelected(signs)
   }
 
   // Paso 4: Handler para cuando termina la animación de constelaciones
@@ -145,6 +173,9 @@ function App() {
   const handleContextSubmit = (context) => {
     setUserContext(context)
     setCurrentStep(6)
+
+    // Analytics: Chat iniciado
+    trackChatStarted(userSigns, selectedTheme)
   }
 
   // Handlers para el chat

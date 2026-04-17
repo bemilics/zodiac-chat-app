@@ -5,6 +5,7 @@ import ShareButton from './ShareButton'
 import useChatScroll from '../hooks/useChatScroll'
 import { buildInitialPromptZodiac, buildContinuationPromptZodiac } from '../utils/zodiacPromptBuilder'
 import { generateChatMessages, getCurrentTimestamp } from '../utils/claudeAPI'
+import { trackMessageSent } from '../utils/analytics'
 
 function ChatGroup({
   userSigns,
@@ -72,6 +73,9 @@ function ChatGroup({
     setUserInput('')
     setIsGenerating(true)
     setError(null)
+
+    // Analytics
+    trackMessageSent()
 
     try {
       const prompt = buildContinuationPromptZodiac(
